@@ -11,7 +11,7 @@ public class EquipsDAODB {
     // CRUD
     public void create(Equips c, Connection conn) throws SQLException {
 
-        String query = "INSERT INTO " + taula + " (nom,acronim,ciutat,estat,divisio,guanyades,perdues) VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO " + taula + " (nom,acronim,ciutat,estat,divisio,guanyades,perdudes) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, c.getNom());
         statement.setString(2, c.getAcronim());
@@ -19,7 +19,7 @@ public class EquipsDAODB {
         statement.setString(4, c.getEstat());
         statement.setString(5, c.getDivisio());
         statement.setInt(6, c.getGuanyades());
-        statement.setInt(7, c.getPerdues());
+        statement.setInt(7, c.getPerdudes());
         statement.execute();
         statement.close();
     }
@@ -27,7 +27,7 @@ public class EquipsDAODB {
     public boolean read(Equips c, Connection conn) throws SQLException {
         Equips er = read(c.getEquip_id(), conn);
         if (er == null) return false;
-        c.set(er.getNom(), er.getAcronim(), er.getCiutat(), er.getEstat(), er.getDivisio(), er.getGuanyades(), er.getPerdues());
+        c.set(er.getNom(), er.getAcronim(), er.getCiutat(), er.getEstat(), er.getDivisio(), er.getGuanyades(), er.getPerdudes());
         return true;
     }
 
@@ -47,7 +47,7 @@ public class EquipsDAODB {
         String estat;
         String divisio;
         int guanyades;
-        int perdues;
+        int perdudes;
         try {
             nom = resultat.getString("nom");
             acronim = resultat.getString("acronim");
@@ -55,17 +55,17 @@ public class EquipsDAODB {
             estat = resultat.getString("estat");
             divisio = resultat.getString("divisio");
             guanyades = resultat.getInt("guanyades");
-            perdues = resultat.getInt("perdues");
+            perdudes = resultat.getInt("perdudes");
         } catch (Exception e) {
             return null;
         }
         resultat.close();
         statement.close();
-        return new Equips(id, nom, acronim, ciutat, estat, divisio, guanyades, perdues);
+        return new Equips(id, nom, acronim, ciutat, estat,divisio, guanyades, perdudes);
     }
 
     public void update(Equips c, Connection conn) throws SQLException {
-        String query = "UPDATE " + taula + " SET nom= ? ,acronim= ?,ciutat= ?,estat= ?,divisio= ?,guanyades= ?,perdues= ? WHERE equip_id= ?";
+        String query = "UPDATE " + taula + " SET nom= ? ,acronim= ?,ciutat= ?,estat= ?,divisio= ?,guanyades= ?,perdudes= ? WHERE equip_id= ?";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, c.getNom());
         statement.setString(2, c.getAcronim());
@@ -73,7 +73,7 @@ public class EquipsDAODB {
         statement.setString(4, c.getEstat());
         statement.setString(5, c.getDivisio());
         statement.setInt(6, c.getGuanyades());
-        statement.setInt(7, c.getPerdues());
+        statement.setInt(7, c.getPerdudes());
         statement.execute();
         statement.close();
     }

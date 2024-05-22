@@ -9,10 +9,10 @@ public class Equips extends EquipsDAODB {
     String estat;
     String divisio;
     int guanyades;
-    int perdues;
+    int perdudes;
 
 
-    public Equips(int equip_id, String nom, String acronim, String ciutat, String estat, String divisio, int guanyades, int perdues) {
+    public Equips(int equip_id, String nom, String acronim, String ciutat, String estat, String divisio, int guanyades, int perdudes) {
         this.equip_id = equip_id;
         this.nom = nom;
         this.acronim = acronim;
@@ -20,7 +20,7 @@ public class Equips extends EquipsDAODB {
         this.estat = estat;
         this.divisio = divisio;
         this.guanyades = guanyades;
-        this.perdues = perdues;
+        this.perdudes = perdudes;
     }
 
     public int getEquip_id() {
@@ -51,16 +51,16 @@ public class Equips extends EquipsDAODB {
         return guanyades;
     }
 
-    public int getPerdues() {
-        return perdues;
+    public int getPerdudes() {
+        return perdudes;
     }
 
-    public void set(String nom, String acronim, String ciutat, String estat, String divisio,int perdues, int guanyades){
+    public void set(String nom, String acronim, String ciutat, String estat, String divisio,int perdudes, int guanyades){
         this.nom = nom;
         this.acronim = acronim;
         this.ciutat = ciutat;
         this.estat = estat;
-        this.perdues = perdues;
+        this.perdudes = perdudes;
         this.divisio = divisio;
         this.guanyades = guanyades;
     }
@@ -73,7 +73,7 @@ public class Equips extends EquipsDAODB {
                 "\n\tCiutat: " + ciutat +
                 "\n\tEstat: " + estat +
                 "\n\tDivisio: " + divisio +
-                "\n\tPerdues: " + perdues +
+                "\n\tPerdues: " + perdudes +
                 "\n\tGuanyades: " + guanyades;
     }
 }
