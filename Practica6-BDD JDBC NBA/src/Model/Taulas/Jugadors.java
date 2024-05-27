@@ -6,7 +6,7 @@ public class Jugadors extends JugadorsDAODB {
     int jugador_id;
     String nom;
     String cognom;
-    String data_naixement;
+    String dataNaixement;
     float alcada;
     float pes;
     String dorsal;
@@ -17,7 +17,7 @@ public class Jugadors extends JugadorsDAODB {
         this.jugador_id = id;
         this.nom = nom;
         this.cognom = cognom;
-        this.data_naixement = data_naixement;
+        this.dataNaixement = data_naixement;
         this.alcada = altura;
         this.pes = pes;
         this.dorsal = dorsal;
@@ -37,8 +37,8 @@ public class Jugadors extends JugadorsDAODB {
         return cognom;
     }
 
-    public String getData_naixement() {
-        return data_naixement;
+    public String getDataNaixement() {
+        return dataNaixement;
     }
 
     public float getAlcada() {
@@ -64,7 +64,7 @@ public class Jugadors extends JugadorsDAODB {
     public void set(String nom, String cognom, String data_naixement, float altura, float pes, String dorsal, String posicio, int equip_id){
         this.nom = nom;
         this.cognom = cognom;
-        this.data_naixement = data_naixement;
+        this.dataNaixement = data_naixement;
         this.alcada = altura;
         this.pes = pes;
         this.dorsal = dorsal;
@@ -77,7 +77,7 @@ public class Jugadors extends JugadorsDAODB {
         return "\nJugador: " +
                 "\n\tID: " + jugador_id +
                 "\n\tNom: " + nom +
-                "\n\tData_naixement: " + data_naixement  +
+                "\n\tData_naixement: " + dataNaixement +
                 "\n\tAltura: " + alcada +
                 "\n\tPes: " + pes +
                 "\n\tDorsal: " + dorsal +

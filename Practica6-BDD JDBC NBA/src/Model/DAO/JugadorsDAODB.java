@@ -16,7 +16,7 @@ public class JugadorsDAODB {
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, c.getNom());
         statement.setString(2, c.getCognom());
-        statement.setString(3, c.getData_naixement());
+        statement.setString(3, c.getDataNaixement());
         statement.setFloat(4, c.getAlcada());
         statement.setFloat(5, c.getPes());
         statement.setString(6, c.getDorsal());
@@ -28,7 +28,7 @@ public class JugadorsDAODB {
     public boolean read(Jugadors c, Connection conn) throws SQLException {
         Jugadors er = read(c.getJugador_id(), conn);
         if (er == null) return false;
-        c.set(er.getNom(), er.getCognom(), er.getData_naixement(), er.getAlcada(), er.getPes(), er.getDorsal(), er.getPosicio(), er.getEquip_id());
+        c.set(er.getNom(), er.getCognom(), er.getDataNaixement(), er.getAlcada(), er.getPes(), er.getDorsal(), er.getPosicio(), er.getEquip_id());
         return true;
     }
 
@@ -71,7 +71,7 @@ public class JugadorsDAODB {
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, c.getNom());
         statement.setString(2, c.getCognom());
-        statement.setString(3, c.getData_naixement());
+        statement.setString(3, c.getDataNaixement());
         statement.setFloat(4, c.getAlcada());
         statement.setFloat(5, c.getPes());
         statement.setString(6, c.getDorsal());
