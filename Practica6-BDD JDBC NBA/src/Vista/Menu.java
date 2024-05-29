@@ -1,12 +1,9 @@
 package Vista;
 
 import Controlador.Conexio;
-import Controlador.Importacio;
-import Model.Taulas.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Menu {
@@ -16,37 +13,28 @@ public class Menu {
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_RESET = "\u001B[0m";
     //--------------------------------------------------------------------
-
-    static HashMap<Integer, Jugadors> jugadors = Importacio.importJugador();
-
-    static HashMap<Integer, Equips> equips = Importacio.importEquips();
-
-    static HashMap<Integer, Estadistiques_jugadors> estadistiques_jugadors = Importacio.importEstadistiques_jugadors();
-
-    static HashMap<Integer, Partits> partits = Importacio.importPartits();
     static Scanner scan = new Scanner(System.in);
 
     static Connection conn = Conexio.conectar();
     static Statement stmt = null;
     static Date dataNaixement = null;
 
-    public static void menu(){
+    public static void menu() {
         int opcio;
         do {
             System.out.println("---------------------------------------------------------------");
-            System.out.println(ANSI_PURPLE + "1" + ANSI_RESET +".- Llistar tots els jugadors d'un equip");
-            System.out.println(ANSI_PURPLE + "2" + ANSI_RESET +".- Calcular la mitjana de punts, rebots, assistències, ... d'un jugador (per fer)");
-            System.out.println(ANSI_PURPLE + "3" + ANSI_RESET +".- Llistar tots els partits jugats per un equip amb el seu resultat(per fer)");
-            System.out.println(ANSI_PURPLE + "4" + ANSI_RESET +".- Inserir un nou jugador a un equip");
-            System.out.println(ANSI_PURPLE + "5" + ANSI_RESET +".- Traspassar un judador a un altra equip");
-            System.out.println(ANSI_PURPLE + "6" + ANSI_RESET +".- Actualitzar les dades de jugadors o equips després d'un partit(per fer)");
-            System.out.println(ANSI_PURPLE + "7" + ANSI_RESET +".- Modificar les estadístiques d’un jugador(per fer)");
-            System.out.println(ANSI_PURPLE + "8" + ANSI_RESET +".- Retirar (Eliminar) un jugador");
-            System.out.println(ANSI_PURPLE + "9" + ANSI_RESET +".- Canviar nom franquícia d’un equip");
-            System.out.println(ANSI_PURPLE + "0" + ANSI_RESET +".-Acabar");
+            System.out.println(ANSI_PURPLE + "1" + ANSI_RESET + ".- Llistar tots els jugadors d'un equip");
+            System.out.println(ANSI_PURPLE + "2" + ANSI_RESET + ".- Calcular la mitjana de punts, rebots, assistències, ... d'un jugador");
+            System.out.println(ANSI_PURPLE + "3" + ANSI_RESET + ".- Llistar tots els partits jugats per un equip amb el seu resultat(per fer)");
+            System.out.println(ANSI_PURPLE + "4" + ANSI_RESET + ".- Inserir un nou jugador a un equip");
+            System.out.println(ANSI_PURPLE + "5" + ANSI_RESET + ".- Traspassar un judador a un altra equip");
+            System.out.println(ANSI_PURPLE + "6" + ANSI_RESET + ".- Actualitzar les dades de jugadors o equips després d'un partit(per fer)");
+            System.out.println(ANSI_PURPLE + "7" + ANSI_RESET + ".- Modificar les estadístiques d’un jugador");
+            System.out.println(ANSI_PURPLE + "8" + ANSI_RESET + ".- Retirar (Eliminar) un jugador");
+            System.out.println(ANSI_PURPLE + "9" + ANSI_RESET + ".- Canviar nom franquícia d’un equip");
+            System.out.println(ANSI_PURPLE + "0" + ANSI_RESET + ".-Acabar");
             System.out.println("---------------------------------------------------------------");
             System.out.print("Selecciona l'opcio:");
             opcio = scan.nextInt();
@@ -56,6 +44,7 @@ public class Menu {
                     llistarJugadors();
                     break;
                 case 2:
+                    calcularMitjanaJugador();
                     break;
                 case 3:
                     break;
@@ -83,7 +72,7 @@ public class Menu {
         } while (opcio != 0);
     }
 
-    public static void llistarJugadors(){
+    public static void llistarJugadors() {
         try {
             System.out.println("Escriu el nom de l'equip:");
             String nomEquip = scan.nextLine();
@@ -118,10 +107,7 @@ public class Menu {
             }
         }
     }
-    public static void mitjanaJugador(){
-
-    }
-    public static void inserirNouJugador(){
+    public static void inserirNouJugador() {
         try {
             System.out.println("Introdueix el nom complet del jugador:");
             String nomComplet = scan.nextLine();
@@ -180,7 +166,7 @@ public class Menu {
             preparedStatement.setString(8, posicio);
             preparedStatement.setInt(9, equipId);
             preparedStatement.executeUpdate();
-            System.out.println( ANSI_BLUE + "Nou jugador inserit a l'equip "+ ANSI_YELLOW + nomEquip + ANSI_BLUE + " amb èxit!" + ANSI_RESET);
+            System.out.println(ANSI_BLUE + "Nou jugador inserit a l'equip " + ANSI_YELLOW + nomEquip + ANSI_BLUE + " amb èxit!" + ANSI_RESET);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -221,7 +207,7 @@ public class Menu {
     }
 
     // Funcio per traspassar jugadors
-    public static void traspasarJugador(){
+    public static void traspasarJugador() {
         try {
             System.out.println("Introdueix el nom complet del jugador:");
             String nomComplet = scan.nextLine();
@@ -246,7 +232,7 @@ public class Menu {
             preparedStatement.setString(3, cognomJugador);
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println(ANSI_BLUE + "El jugador "+ ANSI_YELLOW + nomComplet + ANSI_BLUE + " ha estat traspasat a " + ANSI_YELLOW + nouEquip + ANSI_BLUE +" amb èxit!" + ANSI_RESET);
+                System.out.println(ANSI_BLUE + "El jugador " + ANSI_YELLOW + nomComplet + ANSI_BLUE + " ha estat traspasat a " + ANSI_YELLOW + nouEquip + ANSI_BLUE + " amb èxit!" + ANSI_RESET);
             } else {
                 System.out.println(ANSI_RED + "No s'ha pogut trobar el jugador o el nou equip." + ANSI_RESET);
             }
@@ -254,6 +240,7 @@ public class Menu {
             e.printStackTrace();
         }
     }
+
     public static Date demanarDataNaixement() {
         boolean dataValida = false;
         while (!dataValida) {
@@ -271,6 +258,7 @@ public class Menu {
         }
         return dataNaixement;
     }
+
     // Funció per retirar un jugador
     public static void retirarJugador() {
         try {
@@ -320,7 +308,6 @@ public class Menu {
             String sqlEstadistiques = "SELECT * FROM estadistiques_jugadors WHERE jugador_id = ?";
             PreparedStatement preparedStatementEstadistiques = conn.prepareStatement(sqlEstadistiques);
             preparedStatementEstadistiques.setInt(1, jugadorId);
-            ResultSet rsEstadistiques = preparedStatementEstadistiques.executeQuery();
 
             // Inserim les estadístiques del jugador a la taula de històrics
             String sqlInsertHistoricEstadistiques = "INSERT INTO historics_estadistiques_jugadors (jugador_id, minuts_jugats, punts, tirs_anotats, tirs_tirats, tirs_triples_anotats, tirs_triples_tirats, tirs_lliures_anotats, tirs_lliures_tirats, rebots_ofensius, rebots_defensius, assistencies, robades, bloqueigs) " +
@@ -348,6 +335,7 @@ public class Menu {
             e.printStackTrace();
         }
     }
+
     public static void canviarNomFranquiciaEquip() {
         try {
             System.out.println("Introdueix el nom de l'equip del qual vols canviar la franquícia:");
@@ -377,6 +365,7 @@ public class Menu {
             e.printStackTrace();
         }
     }
+
     public static boolean existeixEquip(String nomEquip) {
         try {
             String sql = "SELECT COUNT(*) AS count FROM equips WHERE nom = ?";
@@ -391,6 +380,7 @@ public class Menu {
             return false;
         }
     }
+
     public static void modificarEstadistiquesJugador() {
         try {
             System.out.println("Introdueix el nom complet del jugador:");
@@ -401,14 +391,13 @@ public class Menu {
             String nomJugador = parts[0];
             String cognomJugador = parts.length > 1 ? parts[1] : "";
 
-            // Consulta SQL para obtener el ID del jugador
+            // Consulta SQL per obtindre l'ID del jugador
             String sqlBuscarJugador = "SELECT jugador_id FROM jugadors WHERE nom = ? AND cognom = ?";
             PreparedStatement psBuscarJugador = conn.prepareStatement(sqlBuscarJugador);
             psBuscarJugador.setString(1, nomJugador);
             psBuscarJugador.setString(2, cognomJugador);
             ResultSet rsBuscarJugador = psBuscarJugador.executeQuery();
 
-            // Verificar si se ha encontrado el jugador
             if (!rsBuscarJugador.next()) {
                 System.out.println(ANSI_RED + "No s'ha trobat cap jugador amb el nom especificat." + ANSI_RESET);
                 return;
@@ -416,13 +405,13 @@ public class Menu {
 
             int idJugador = rsBuscarJugador.getInt("jugador_id");
 
-            // Consulta SQL para obtener el partit_id máximo
+            // Consulta SQL per obtindre el partit_id máxim
             String sqlMaxPartitId = "SELECT MAX(partit_id) AS max_partit_id FROM estadistiques_jugadors WHERE jugador_id = ?";
             PreparedStatement psMaxPartitId = conn.prepareStatement(sqlMaxPartitId);
             psMaxPartitId.setInt(1, idJugador);
             ResultSet rsMaxPartitId = psMaxPartitId.executeQuery();
 
-            int maxPartitId = 0;
+            int maxPartitId;
             if (rsMaxPartitId.next()) {
                 maxPartitId = rsMaxPartitId.getInt("max_partit_id");
             } else {
@@ -430,37 +419,50 @@ public class Menu {
                 return;
             }
 
-            // Solicitar las nuevas estadísticas al usuario
             System.out.println("Introdueix les noves estadístiques del jugador per al partit amb partit_id = " + maxPartitId + ":");
 
             System.out.print("Minuts jugats: ");
             int minutsJugats = scan.nextInt();
-            scan.nextLine(); // Limpiamos el buffer de entrada
 
             System.out.print("Punts: ");
             int punts = scan.nextInt();
-            scan.nextLine(); // Limpiamos el buffer de entrada
 
             System.out.print("Tirs anotats: ");
             int tirsAnotats = scan.nextInt();
-            scan.nextLine(); // Limpiamos el buffer de entrada
 
             System.out.print("Tirs tirats: ");
             int tirsTirats = scan.nextInt();
-            scan.nextLine(); // Limpiamos el buffer de entrada
 
             System.out.print("Tirs triples anotats: ");
             int tirsTriplesAnotats = scan.nextInt();
-            scan.nextLine(); // Limpiamos el buffer de entrada
+
+            System.out.print("Tirs lliures anotats: ");
+            int tirs_lliures_anotats = scan.nextInt();
 
             System.out.print("Tirs triples tirats: ");
             int tirsTriplesTirats = scan.nextInt();
-            scan.nextLine(); // Limpiamos el buffer de entrada
 
-            // Continuar con el resto de estadísticas...
+            System.out.print("Tirs lliures tirats: ");
+            int tirs_lliures_tirats = scan.nextInt();
 
-            // Actualizar las estadísticas en la base de datos
-            String sqlActualizarEstadistiques = "UPDATE estadistiques_jugadors SET minuts_jugats = ?, punts = ?, tirs_anotats = ?, tirs_tirats = ?, tirs_triples_anotats = ?, tirs_triples_tirats = ? WHERE jugador_id = ? AND partit_id = ?";
+
+            System.out.print("Rebots ofensius: ");
+            int rebots_ofensius = scan.nextInt();
+
+            System.out.print("Rebots defensius: ");
+            int rebots_defensius = scan.nextInt();
+
+            System.out.print("Assistencies: ");
+            int assistencies = scan.nextInt();
+
+            System.out.print("Robades: ");
+            int robades = scan.nextInt();
+
+            System.out.print("Bloqueigs: ");
+            int bloqueigs = scan.nextInt();
+
+            // Actualitzar les estadísticas en la bdd
+            String sqlActualizarEstadistiques = "UPDATE estadistiques_jugadors SET minuts_jugats = ?, punts = ?, tirs_anotats = ?, tirs_tirats = ?, tirs_triples_anotats = ?, tirs_triples_tirats = ?, tirs_lliures_anotats = ?, tirs_lliures_tirats = ?, rebots_ofensius = ?, rebots_defensius = ?, assistencies = ?, robades = ?, bloqueigs = ?  WHERE jugador_id = ? AND partit_id = ?";
             PreparedStatement psActualizarEstadistiques = conn.prepareStatement(sqlActualizarEstadistiques);
             psActualizarEstadistiques.setInt(1, minutsJugats);
             psActualizarEstadistiques.setInt(2, punts);
@@ -468,10 +470,16 @@ public class Menu {
             psActualizarEstadistiques.setInt(4, tirsTirats);
             psActualizarEstadistiques.setInt(5, tirsTriplesAnotats);
             psActualizarEstadistiques.setInt(6, tirsTriplesTirats);
-            // Continuar con el resto de estadísticas...
+            psActualizarEstadistiques.setInt(7, tirs_lliures_anotats);
+            psActualizarEstadistiques.setInt(8, tirs_lliures_tirats);
+            psActualizarEstadistiques.setInt(9, rebots_ofensius);
+            psActualizarEstadistiques.setInt(10, rebots_defensius);
+            psActualizarEstadistiques.setInt(11, assistencies);
+            psActualizarEstadistiques.setInt(12, robades);
+            psActualizarEstadistiques.setInt(13, bloqueigs);
 
-            psActualizarEstadistiques.setInt(7, idJugador);
-            psActualizarEstadistiques.setInt(8, maxPartitId);
+            psActualizarEstadistiques.setInt(14, idJugador);
+            psActualizarEstadistiques.setInt(15, maxPartitId);
             int filasActualizadas = psActualizarEstadistiques.executeUpdate();
 
             if (filasActualizadas > 0) {
@@ -483,5 +491,70 @@ public class Menu {
             e.printStackTrace();
         }
     }
+    public static void calcularMitjanaJugador() {
+        try {
+            System.out.println("Introdueix el nom del jugador:");
+            String nomJugador = scan.nextLine();
+            System.out.println("Introdueix el cognom del jugador:");
+            String cognomJugador = scan.nextLine();
 
+            // Obtenim l'ID del jugador
+            int jugadorId = obtindreJugadorID(nomJugador, cognomJugador);
+
+            // Obtenim les estadístiques del jugador
+            String sql = "SELECT AVG(minuts_jugats) AS mitjana_minuts_jugats, AVG(punts) AS mitjana_punts, AVG(rebots_ofensius) AS mitjana_rebots_ofensius, AVG(rebots_defensius) AS mitjana_rebots_defensius, AVG(assistencies) AS mitjana_assistencies, AVG(tirs_anotats) AS mitjana_tirs_anotats, AVG(tirs_tirats) AS mitjana_tirs_tirats, AVG(tirs_triples_anotats) AS mitjana_tirs_triples_anotats, AVG(tirs_triples_tirats) AS mitjana_tirs_triples_tirats, AVG(tirs_lliures_anotats) AS mitjana_tirs_lliures_anotats, AVG(tirs_lliures_tirats) AS mitjana_tirs_lliures_tirats, AVG(robades) AS mitjana_robades, AVG(bloqueigs) AS mitjana_bloqueigs FROM estadistiques_jugadors WHERE jugador_id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, jugadorId);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                double mitjanaMinutsJugats = rs.getDouble("mitjana_minuts_jugats");
+                double mitjanaPunts = rs.getDouble("mitjana_punts");
+                double mitjanaRebotsOfensius = rs.getDouble("mitjana_rebots_ofensius");
+                double mitjanaRebotsDefensius = rs.getDouble("mitjana_rebots_defensius");
+                double mitjanaAssistencies = rs.getDouble("mitjana_assistencies");
+                double mitjanaTirsAnotats = rs.getDouble("mitjana_tirs_anotats");
+                double mitjanaTirsTirats = rs.getDouble("mitjana_tirs_tirats");
+                double mitjanaTirsTriplesAnotats = rs.getDouble("mitjana_tirs_triples_anotats");
+                double mitjanaTirsTriplesTirats = rs.getDouble("mitjana_tirs_triples_tirats");
+                double mitjanaTirsLliuresAnotats = rs.getDouble("mitjana_tirs_lliures_anotats");
+                double mitjanaTirs_lliures_tirats = rs.getDouble("mitjana_tirs_lliures_tirats");
+                double mitjanaRobades = rs.getDouble("mitjana_robades");
+                double mitjanaBloqueigs = rs.getDouble("mitjana_bloqueigs");
+
+                System.out.println(ANSI_BLUE + "Mitjanes de les estadístiques del jugador " + ANSI_YELLOW + nomJugador + " " + cognomJugador + ":" + ANSI_RESET);
+                System.out.println("Minuts: " + ANSI_GREEN + mitjanaMinutsJugats + ANSI_RESET);
+                System.out.println("Punts: " + ANSI_GREEN + mitjanaPunts + ANSI_RESET);
+                System.out.println("Rebots: " + ANSI_GREEN + mitjanaRebotsOfensius + ANSI_RESET);
+                System.out.println("Assistències: " + ANSI_GREEN + mitjanaRebotsDefensius + ANSI_RESET);
+                System.out.println("Punts: " + ANSI_GREEN + mitjanaAssistencies + ANSI_RESET);
+                System.out.println("Rebots: " + ANSI_GREEN + mitjanaTirsAnotats + ANSI_RESET);
+                System.out.println("Assistències: " + ANSI_GREEN + mitjanaTirsTirats + ANSI_RESET);
+                System.out.println("Punts: " + ANSI_GREEN + mitjanaTirsTriplesAnotats + ANSI_RESET);
+                System.out.println("Rebots: " + ANSI_GREEN + mitjanaTirsTriplesTirats + ANSI_RESET);
+                System.out.println("Assistències: " + ANSI_GREEN + mitjanaTirsLliuresAnotats + ANSI_RESET);
+                System.out.println("Punts: " + ANSI_GREEN + mitjanaTirs_lliures_tirats + ANSI_RESET);
+                System.out.println("Rebots: " + ANSI_GREEN + mitjanaRobades + ANSI_RESET);
+                System.out.println("Assistències: " + ANSI_GREEN + mitjanaBloqueigs + ANSI_RESET);
+            } else {
+                System.out.println(ANSI_RED + "No s'han trobat estadístiques per a aquest jugador." + ANSI_RESET);
+            }
+            rs.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static int obtindreJugadorID(String nomJugador, String cognomJugador) throws SQLException {
+        String sql = "SELECT jugador_id FROM jugadors WHERE nom = ? AND cognom = ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setString(1, nomJugador);
+        preparedStatement.setString(2, cognomJugador);
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("jugador_id");
+        } else {
+            return -1;
+        }
+    }
 }
