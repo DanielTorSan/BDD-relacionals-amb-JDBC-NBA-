@@ -71,7 +71,7 @@ public class Menu {
             }
         } while (opcio != 0);
     }
-
+    //Funcio per llistar els jugadors d'un equip
     public static void llistarJugadors() {
         try {
             System.out.println("Escriu el nom de l'equip:");
@@ -93,7 +93,6 @@ public class Menu {
             }
             rs.close();
             stmt.close();
-            Conexio.desconectar(conn);
         } catch (SQLException se) {
             // errors DBC
             se.printStackTrace();
@@ -107,6 +106,7 @@ public class Menu {
             }
         }
     }
+    //Funcio per a que l'usuari crei un nou jugador
     public static void inserirNouJugador() {
         try {
             System.out.println("Introdueix el nom complet del jugador:");
@@ -171,7 +171,7 @@ public class Menu {
             e.printStackTrace();
         }
     }
-
+    //Funcio per crear un id per a el nou jugador
     public static int nouJugadorID() throws SQLException {
         String sql = "SELECT MAX(jugador_id) AS max_id FROM jugadors";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -240,7 +240,7 @@ public class Menu {
             e.printStackTrace();
         }
     }
-
+    //Fumcio per demanar dates i tractarles
     public static Date demanarDataNaixement() {
         boolean dataValida = false;
         while (!dataValida) {
@@ -335,7 +335,7 @@ public class Menu {
             e.printStackTrace();
         }
     }
-
+    //Funcio per canviar la franquicia d'un equip ("franquicia" = "ciutat")
     public static void canviarNomFranquiciaEquip() {
         try {
             System.out.println("Introdueix el nom de l'equip del qual vols canviar la franquícia:");
@@ -365,7 +365,7 @@ public class Menu {
             e.printStackTrace();
         }
     }
-
+    //Funcio per veure si existeix l'equip
     public static boolean existeixEquip(String nomEquip) {
         try {
             String sql = "SELECT COUNT(*) AS count FROM equips WHERE nom = ?";
@@ -380,7 +380,7 @@ public class Menu {
             return false;
         }
     }
-
+    //Funcio per modificar les estadistiques del jugador
     public static void modificarEstadistiquesJugador() {
         try {
             System.out.println("Introdueix el nom complet del jugador:");
@@ -444,7 +444,6 @@ public class Menu {
 
             System.out.print("Tirs lliures tirats: ");
             int tirs_lliures_tirats = scan.nextInt();
-
 
             System.out.print("Rebots ofensius: ");
             int rebots_ofensius = scan.nextInt();
